@@ -10,7 +10,12 @@ export const qetMany = query({
 export const add = mutation({
   args: {},
   handler: async (ctx) => {
-    const userId = await ctx.db.insert("users", { name: "kuroda" });
-    return userId;
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Not authenticated");
+    }
+
+    return await ctx.db.insert("users", { name: "kuroda" });
   },
 });
