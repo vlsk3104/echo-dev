@@ -25,3 +25,4 @@ export default function Page() {
     </div>
   );
 }
+// pnpm dlx -F widget shadcn add --all
