@@ -1,0 +1,25 @@
+"use client";
+import React from "react";
+import WidgetFooter from "../components/widget-footer";
+import WidgetHeader from "../components/widget-header";
+
+interface Props {
+  organizationId: string;
+}
+
+const WidgetView = ({ organizationId }: Props) => {
+  return (
+    <main className="min-h-screen min-w-screen flex h-full w-full flex-col overflow-hidden rounded-xl border bg-muted">
+      <WidgetHeader>
+        <div className="flex flex-col justify-between gap-y-2 px-2 py-6">
+          <p>こんにちは 👋</p>
+          <p>本日はどのようなご用件でしょうか？</p>
+        </div>
+      </WidgetHeader>
+      <div className="flex flex-1">WidgetView: {organizationId}</div>
+      <WidgetFooter />
+    </main>
+  );
+};
+
+export default WidgetView;
