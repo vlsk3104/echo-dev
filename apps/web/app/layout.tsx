@@ -1,5 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
-
+// @ts-ignore
 import "@workspace/ui/globals.css";
 import { Providers } from "@/components/providers";
 import { ClerkProvider } from "@clerk/nextjs";
