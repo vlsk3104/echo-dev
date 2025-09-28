@@ -128,4 +128,3 @@ const WidgetAuthScreen = () => {
 };
 
 export default WidgetAuthScreen;
-// pnpm -F widget add zod react-hook-form @hookform/resolvers
