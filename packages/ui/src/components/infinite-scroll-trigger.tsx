@@ -1,6 +1,7 @@
 import React from "react";
 import { cn } from "@workspace/ui/lib/utils";
 import { Button } from "@workspace/ui/components/button";
+import { Loader } from "lucide-react";
 
 interface InfiniteScrollTriggerProps {
   canLoadMore: boolean;
@@ -17,14 +18,14 @@ const InfiniteScrollTrigger = ({
   isLoadingMore,
   onLoadMore,
   loadMoreText = "さらに読み込む",
-  noMoreText = "これ以上読み込むものはありません",
+  noMoreText = "",
   className,
   ref,
 }: InfiniteScrollTriggerProps) => {
-  let text = loadMoreText;
+  let text = loadMoreText as string | React.ReactElement;
 
   if (isLoadingMore) {
-    text = "ローディング中...";
+    text = <Loader className="animate-spin" />;
   } else if (!canLoadMore) {
     text = noMoreText;
   }
@@ -32,7 +33,7 @@ const InfiniteScrollTrigger = ({
   return (
     <div className={cn("flex w-full justify-center", className)} ref={ref}>
       <Button
-        disabled={!canLoadMore || !isLoadingMore}
+        disabled={!canLoadMore && !isLoadingMore}
         onClick={onLoadMore}
         size={"sm"}
         variant={"ghost"}
