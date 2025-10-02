@@ -40,19 +40,16 @@ const customerSupportItems = [
 
 const configurationItems = [
   {
-    // widget customization
     title: "ウィジェットのカスタマイズ",
     url: "/customization",
     icon: PaletteIcon,
   },
   {
-    // integrations
     title: "インテグレーション",
     url: "/integrations",
     icon: LayoutDashboardIcon,
   },
   {
-    // voice assistant
     title: "音声アシスタント",
     url: "/plugins/vapi",
     icon: Mic,
@@ -61,7 +58,6 @@ const configurationItems = [
 
 const accountItems = [
   {
-    // plans & billing
     title: "請求",
     url: "/billing",
     icon: CreditCardIcon,
