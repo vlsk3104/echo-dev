@@ -53,6 +53,7 @@ const ConversationsPanel = () => {
     status: conversations.status,
     loadMore: conversations.loadMore,
     loadSize: 10,
+    observerEnabled: false,
   });
 
   return (
@@ -65,7 +66,7 @@ const ConversationsPanel = () => {
               value as "all" | "unsolved" | "escalated" | "resolved",
             );
           }}
-          value="all"
+          value={statusFilter}
         >
           <SelectTrigger className="h-8 border-none px-1.5 shadow-none right-0 ring-0 hover:bg-accent hover:text-accent-foreground focus-visible:ring-0">
             <SelectValue placeholder="フィルタ" />
@@ -77,7 +78,7 @@ const ConversationsPanel = () => {
                 <span>すべて</span>
               </div>
             </SelectItem>
-            <SelectItem value="unresolved">
+            <SelectItem value="unsolved">
               <div className="flex items-center gap-2">
                 <ArrowRightIcon className="size-4" />
                 <span>未解決</span>

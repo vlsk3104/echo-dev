@@ -33,7 +33,6 @@ const DicebearAvatar = ({
 
     return avatar.toDataUri();
   }, [seed, size]);
-  console.log("avatarSrc", avatarSrc);
 
   const badgeSize = Math.round(size * 0.5);
 

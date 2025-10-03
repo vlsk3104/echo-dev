@@ -76,14 +76,14 @@ const WidgetChatScreen = () => {
           contactSessionId,
         }
       : "skip",
-    { initialNumItems: 5 },
+    { initialNumItems: 10 },
   );
 
   const { topElementRef, handleLoadMore, canLoadMore, isLoadingMore } =
     useInfiniteScroll({
       status: messages.status,
       loadMore: messages.loadMore,
-      loadSize: 5,
+      loadSize: 10,
       observerEnabled: false,
     });
 
