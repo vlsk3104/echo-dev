@@ -7,6 +7,7 @@ import {
 import { cookies } from "next/headers";
 import React from "react";
 import DashboardSlider from "../components/dashboard-slider";
+import { Provider } from "jotai/react";
 
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   const cookieStore = await cookies();
@@ -15,10 +16,12 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <AuthGuard>
       <OrganizationGuard>
-        <SidebarProvider defaultOpen={defaultOpen}>
-          <DashboardSlider />
-          <main className="flex flex-1 flex-col">{children}</main>
-        </SidebarProvider>
+        <Provider>
+          <SidebarProvider defaultOpen={defaultOpen}>
+            <DashboardSlider />
+            <main className="flex flex-1 flex-col">{children}</main>
+          </SidebarProvider>
+        </Provider>
       </OrganizationGuard>
     </AuthGuard>
   );
