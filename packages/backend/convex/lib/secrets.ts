@@ -59,7 +59,9 @@ export function parseSecretString<T = Record<string, unknown>>(
   }
 
   try {
-    return JSON.stringify(secret.SecretString) as T;
+    // AWS Secrets Manager の SecretString は JSON 文字列として保存している想定
+    // ここでは文字列をパースして型 T として返す
+    return JSON.parse(secret.SecretString) as T;
   } catch (err) {
     console.error(err);
     return null;
