@@ -1,13 +1,13 @@
 import { Agent } from "@convex-dev/agent";
 import { openai } from "@ai-sdk/openai";
 import { components } from "../../../_generated/api";
+import { SUPPORT_AGENT_PROMPT } from "../constants";
 
 export const supportAgent = new Agent(components.agent, {
   name: "Customer Support Agent",
   languageModel: openai.chat("gpt-4o-mini"),
-  instructions: `
-  あなたはカスタマーサポート担当者です。
-  ユーザーが会話を終了したいと表明した場合は、"resolveConversation" ツール を使用してください。
-  ユーザーが不満を表明したり、人間の対応を明示的に要求した場合は、"escalateConversation"ツール を使用してください。
-  `,
+  // ツール呼び出し中に生成されたメッセージ（assistantのtool_callsやtoolの返答）が履歴に残っていると、未解決のtool_callが文脈に混ざりプロバイダ側で
+  // 「tool_callsの直後に対応するtoolメッセージが必要」という検証エラーを引き起こす場合があるため、コンテキストからツール関連メッセージを除外します。
+  contextOptions: { excludeToolMessages: true },
+  instructions: SUPPORT_AGENT_PROMPT,
 });

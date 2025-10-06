@@ -130,25 +130,28 @@ const WidgetChatScreen = () => {
             onLoadMore={handleLoadMore}
             ref={topElementRef}
           />
-          {toUIMessages(messages.results ?? [])?.map((message) => {
-            return (
-              <AIMessage
-                from={message.role === "user" ? "user" : "assistant"}
-                key={message.id}
-              >
-                <AIMessageContent>
-                  <AIResponse>{message.text}</AIResponse>
-                </AIMessageContent>
-                {message.role === "assistant" && (
-                  <DicebearAvatar
-                    imageUrl="/logo.svg"
-                    seed="assistant"
-                    size={32}
-                  />
-                )}
-              </AIMessage>
-            );
-          })}
+          {toUIMessages(messages.results ?? [])
+            // API由来の空メッセージ（テキストなし）は描画しない
+            .filter((m) => (m.text ?? "").trim().length > 0)
+            .map((message) => {
+              return (
+                <AIMessage
+                  from={message.role === "user" ? "user" : "assistant"}
+                  key={message.id}
+                >
+                  <AIMessageContent>
+                    <AIResponse>{message.text}</AIResponse>
+                  </AIMessageContent>
+                  {message.role === "assistant" && (
+                    <DicebearAvatar
+                      imageUrl="/logo.svg"
+                      seed="assistant"
+                      size={32}
+                    />
+                  )}
+                </AIMessage>
+              );
+            })}
         </AIConversationContent>
       </AIConversation>
       <Form {...form}>

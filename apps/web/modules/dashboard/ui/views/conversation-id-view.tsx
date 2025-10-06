@@ -164,22 +164,25 @@ const ConversationIdView = ({
             onLoadMore={handleLoadMore}
             ref={topElementRef}
           />
-          {toUIMessages(messages.results ?? [])?.map((message) => (
-            <AIMessage
-              from={message.role === "user" ? "assistant" : "user"}
-              key={message.id}
-            >
-              <AIMessageContent>
-                <AIResponse>{message.text}</AIResponse>
-              </AIMessageContent>
-              {message.role === "user" && (
-                <DicebearAvatar
-                  size={32}
-                  seed={conversation?.contactSessionId ?? "user"}
-                />
-              )}
-            </AIMessage>
-          ))}
+          {toUIMessages(messages.results ?? [])
+            // API由来の空テキストは非表示にする
+            .filter((m) => (m.text ?? "").trim().length > 0)
+            .map((message) => (
+              <AIMessage
+                from={message.role === "user" ? "assistant" : "user"}
+                key={message.id}
+              >
+                <AIMessageContent>
+                  <AIResponse>{message.text}</AIResponse>
+                </AIMessageContent>
+                {message.role === "user" && (
+                  <DicebearAvatar
+                    size={32}
+                    seed={conversation?.contactSessionId ?? "user"}
+                  />
+                )}
+              </AIMessage>
+            ))}
         </AIConversationContent>
         <AIConversationScrollButton />
       </AIConversation>
