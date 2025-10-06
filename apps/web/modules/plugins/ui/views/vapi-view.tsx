@@ -85,7 +85,7 @@ const VapiPluginForm = ({
       toast.success("Vapiシークレットが作成されました");
     } catch (err) {
       console.error(err);
-      toast.error("問題が発生しました。");
+      toast.error("問題が発生しました");
     }
   };
 
@@ -173,7 +173,7 @@ const VapiPluginRemoveForm = ({
       toast.success("Vapi プラインを無効化しました");
     } catch (err) {
       console.error(err);
-      toast.error("問題が発生しました。");
+      toast.error("問題が発生しました");
     }
   };
 
