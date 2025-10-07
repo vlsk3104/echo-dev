@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as constants from "../constants.js";
 import type * as lib_extractTexContent from "../lib/extractTexContent.js";
 import type * as lib_secrets from "../lib/secrets.js";
 import type * as playground from "../playground.js";
@@ -52,6 +53,7 @@ import type {
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  constants: typeof constants;
   "lib/extractTexContent": typeof lib_extractTexContent;
   "lib/secrets": typeof lib_secrets;
   playground: typeof playground;

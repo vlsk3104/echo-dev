@@ -8,7 +8,7 @@ export const BillingView = () => {
       <div className="mx-auto w-full max-w-screen-md">
         <div className="space-y-2">
           <h1 className="text-2xl md:text-4xl">プランと請求</h1>
-          <p>あなたに最適なプランをお選びください</p>
+          <p>最適なプランをお選びください</p>
         </div>
 
         <div className="mt-8">
