@@ -46,6 +46,10 @@ export const create = action({
       });
     }
 
+    await ctx.runMutation(internal.system.contactSessions.refresh, {
+      contactSessionId: args.contactSessionId,
+    });
+
     const shouldTriggerAgent = conversation.status === "unsolved";
 
     if (shouldTriggerAgent) {
