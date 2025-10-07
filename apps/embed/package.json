@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "dev": "vite --port 3002",
-    "build": "vite build"
+    "build": "vite build",
+    "echo:build": "VITE_WIDGET_URL=https://echo-dev-widget.vercel.app pnpm build"
   },
   "devDependencies": {
     "@types/node": "^20",
