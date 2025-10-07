@@ -11,6 +11,7 @@
 import type * as lib_extractTexContent from "../lib/extractTexContent.js";
 import type * as lib_secrets from "../lib/secrets.js";
 import type * as playground from "../playground.js";
+import type * as private_contactSession from "../private/contactSession.js";
 import type * as private_conversations from "../private/conversations.js";
 import type * as private_files from "../private/files.js";
 import type * as private_messages from "../private/messages.js";
@@ -54,6 +55,7 @@ declare const fullApi: ApiFromModules<{
   "lib/extractTexContent": typeof lib_extractTexContent;
   "lib/secrets": typeof lib_secrets;
   playground: typeof playground;
+  "private/contactSession": typeof private_contactSession;
   "private/conversations": typeof private_conversations;
   "private/files": typeof private_files;
   "private/messages": typeof private_messages;
