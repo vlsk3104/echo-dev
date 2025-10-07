@@ -15,11 +15,11 @@ export const createScript = (
   }
 
   if (integrationId === "react") {
-    return REACT_SCRIPT.replace(/{ORGANIZATION_ID}/g, organizationId);
+    return REACT_SCRIPT.replace(/{{ORGANIZATION_ID}}/g, organizationId);
   }
 
   if (integrationId === "nextjs") {
-    return NEXTJS_SCRIPT.replace(/{ORGANIZATION_ID}/g, organizationId);
+    return NEXTJS_SCRIPT.replace(/{{ORGANIZATION_ID}}/g, organizationId);
   }
 
   if (integrationId === "javascript") {
