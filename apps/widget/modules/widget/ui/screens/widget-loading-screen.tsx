@@ -8,6 +8,7 @@ import {
   loadingMessageAtom,
   organizationIdAtom,
   screenAtom,
+  vapiSecretsAtom,
   widgetSettingsAtom,
 } from "../../atoms/widget-atoms";
 import WidgetHeader from "../components/widget-header";
@@ -31,6 +32,7 @@ const WidgetLoadingScreen = ({
   const setLoadingMessage = useSetAtom(loadingMessageAtom);
   const setErrorMessage = useSetAtom(errorMessageAtom);
   const setScreen = useSetAtom(screenAtom);
+  const setVapiSecrets = useSetAtom(vapiSecretsAtom);
 
   const contactSessionId = useAtomValue(
     contactSessionIdAtomFamily(organizationId || ""),
@@ -127,9 +129,41 @@ const WidgetLoadingScreen = ({
 
     if (widgetSettings !== undefined) {
       setWidgetSettings(widgetSettings);
-      setStep("done");
+      setStep("vapi");
     }
   }, [step, setStep, widgetSettings, setWidgetSettings, setLoadingMessage]);
+
+  // Step4: Load Vapi Secrets
+  const getVapiSecrets = useAction(api.public.secrets.getVapiSecrets);
+  useEffect(() => {
+    if (step !== "vapi") {
+      return;
+    }
+
+    if (!organizationId) {
+      setErrorMessage("組織IDは必須です");
+      setScreen("error");
+      return;
+    }
+
+    setLoadingMessage("音声機能を読み込み中...");
+    getVapiSecrets({ organizationId })
+      .then((secrets) => {
+        setVapiSecrets(secrets);
+        setStep("done");
+      })
+      .catch(() => {
+        setVapiSecrets(null);
+        setStep("done");
+      });
+  }, [
+    step,
+    organizationId,
+    getVapiSecrets,
+    setVapiSecrets,
+    setLoadingMessage,
+    setStep,
+  ]);
 
   useEffect(() => {
     if (step !== "done") {

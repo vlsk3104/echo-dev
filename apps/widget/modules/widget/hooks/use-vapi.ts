@@ -1,15 +1,17 @@
 import Vapi from "@vapi-ai/web";
+import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
+import { vapiSecretsAtom, widgetSettingsAtom } from "../atoms/widget-atoms";
 
 interface TranscriptMessage {
   role: "user" | "assistant";
   text: string;
 }
 
-const VAPI_PUBLIC_KEY = "396297f0-c854-4d34-84b1-5f82325c4b4b";
-const VAPI_ASSISTANT_ID = "f8e97720-0148-47fa-81f4-2d783ca7efd5";
-
 export const useVapi = () => {
+  const vapiSecrets = useAtomValue(vapiSecretsAtom);
+  const widgetSettings = useAtomValue(widgetSettingsAtom);
+
   const [vapi, setVapi] = useState<Vapi | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
@@ -17,11 +19,10 @@ export const useVapi = () => {
   const [transcript, setTranscript] = useState<TranscriptMessage[]>([]);
 
   useEffect(() => {
-    if (!VAPI_PUBLIC_KEY) {
-      console.error("Vapi: NEXT_PUBLIC_VAPI_PUBLIC_KEY が設定されていません");
+    if (!vapiSecrets) {
       return;
     }
-    const vapiInstance = new Vapi(VAPI_PUBLIC_KEY);
+    const vapiInstance = new Vapi(vapiSecrets.publicApiKey);
     setVapi(vapiInstance);
 
     vapiInstance.on("call-start", () => {
@@ -63,14 +64,15 @@ export const useVapi = () => {
   }, []);
 
   const startCall = () => {
-    setIsConnecting(true);
-    if (!vapi) return;
-    if (!VAPI_ASSISTANT_ID) {
-      console.error("Vapi: NEXT_PUBLIC_VAPI_ASSISTANT_ID が設定されていません");
-      setIsConnecting(false);
+    if (!vapiSecrets || !widgetSettings?.vapiSettings.assistantId) {
       return;
     }
-    vapi.start(VAPI_ASSISTANT_ID);
+
+    setIsConnecting(true);
+
+    if (vapi) {
+      vapi.start(widgetSettings.vapiSettings.assistantId);
+    }
   };
 
   const endCall = () => {

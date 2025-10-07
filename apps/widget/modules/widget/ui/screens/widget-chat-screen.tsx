@@ -61,7 +61,7 @@ const WidgetChatScreen = () => {
 
   const onBack = () => {
     setConversationId(null);
-    setScreen("inbox");
+    setScreen("selection");
   };
 
   const suggestions = useMemo(() => {
