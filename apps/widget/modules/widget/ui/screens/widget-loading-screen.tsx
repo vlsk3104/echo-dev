@@ -8,10 +8,11 @@ import {
   loadingMessageAtom,
   organizationIdAtom,
   screenAtom,
+  widgetSettingsAtom,
 } from "../../atoms/widget-atoms";
 import WidgetHeader from "../components/widget-header";
 import { LoaderIcon } from "lucide-react";
-import { useAction, useMutation } from "convex/react";
+import { useAction, useMutation, useQuery } from "convex/react";
 import { api } from "@workspace/backend/_generated/api";
 
 type InitStep = "org" | "session" | "settings" | "vapi" | "done";
@@ -25,6 +26,7 @@ const WidgetLoadingScreen = ({
   const [sessionValid, setSessionValid] = useState(false);
 
   const loadingMessage = useAtomValue(loadingMessageAtom);
+  const setWidgetSettings = useSetAtom(widgetSettingsAtom);
   const setOrganizationId = useSetAtom(organizationIdAtom);
   const setLoadingMessage = useSetAtom(loadingMessageAtom);
   const setErrorMessage = useSetAtom(errorMessageAtom);
@@ -89,7 +91,7 @@ const WidgetLoadingScreen = ({
 
     if (!contactSessionId) {
       setSessionValid(false);
-      setStep("done");
+      setStep("settings");
       return;
     }
 
@@ -98,15 +100,37 @@ const WidgetLoadingScreen = ({
     validateContactSession({ contactSessionId })
       .then((result) => {
         setSessionValid(result.valid);
-        setStep("done");
+        setStep("settings");
       })
       .catch(() => {
         setSessionValid(false);
-        setStep("done");
+        setStep("settings");
       });
   }, [step, contactSessionId, validateContactSession, setLoadingMessage]);
 
-  // Step3
+  // Step 3: Load Widget Settings
+  const widgetSettings = useQuery(
+    api.public.widgetSettings.getByOrganizationId,
+    organizationId
+      ? {
+          organizationId,
+        }
+      : "skip",
+  );
+
+  useEffect(() => {
+    if (step !== "settings") {
+      return;
+    }
+
+    setLoadingMessage("ウィジェット設定を読み込み中...");
+
+    if (widgetSettings !== undefined) {
+      setWidgetSettings(widgetSettings);
+      setStep("done");
+    }
+  }, [step, setStep, widgetSettings, setWidgetSettings, setLoadingMessage]);
+
   useEffect(() => {
     if (step !== "done") {
       return;
